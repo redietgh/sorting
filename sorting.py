@@ -10,7 +10,6 @@ if cmp(a, b) returns  1, then a > b;
 if cmp(a, b) returns  0, then a == b.
 '''
 
-import random
 
 def cmp_standard(a, b):
     '''
@@ -84,7 +83,7 @@ def _merged(xs, ys, cmp=cmp_standard):
         if cmp(xs[ixs], ys[iys]) == -1:
             ret.append(xs[ixs])
             ixs += 1
-        else: 
+        else:
             ret.append(ys[iys])
             iys += 1
     while ixs < len(xs):
@@ -116,8 +115,8 @@ def merge_sorted(xs, cmp=cmp_standard):
         return xs
     else:
         midpoint = len(xs) // 2
-        left = xs[:mid]
-        right = xs[mid:]
+        left = xs[:midpoint]
+        right = xs[midpoint:]
         sorted_left = merge_sorted(left, cmp=cmp)
         sorted_right = merge_sorted(right, cmp=cmp)
         return _merged(sorted_left, sorted_right, cmp=cmp)
@@ -128,8 +127,8 @@ def quick_sorted(xs, cmp=cmp_standard):
     Quicksort is like mergesort,
     but it uses a different strategy to split the list.
     Instead of splitting the list down the middle,
-    a "pivot" value is randomly selected, 
-    and the list is split into a "less than" sublist and a "greater than" sublist.
+    a "pivot" value is randomly selected, and the list is split into a "less
+    than" sublist and a "greater than" sublist.
 
     The pseudocode is:
 
@@ -150,12 +149,12 @@ def quick_sorted(xs, cmp=cmp_standard):
         return xs
     else:
         midpoint = len(xs) // 2
-        pivot_val = xs[mid]
+        pivot_val = xs[midpoint]
         xs_less_than = [x for x in xs if cmp(x, pivot_val) == -1]
         xs_greater = [x for x in xs if cmp(x, pivot_val) == 1]
         xs_equal_to = [x for x in xs if cmp(x, pivot_val) == 0]
         xs_less_than = quick_sorted(xs_less_than, cmp=cmp)
-        xs_greater_than = quick_sorted(xs_greater_than, cmp=cmp)
+        xs_greater = quick_sorted(xs_greater, cmp=cmp)
         return xs_less_than + xs_equal_to + xs_greater
 
 
