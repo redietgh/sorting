@@ -79,19 +79,23 @@ def _merged(xs, ys, cmp=cmp_standard):
     ixs = 0
     iys = 0
     ret = []
-    while ixs < len(xs) and iys < len(xs):
+
+    while ixs < len(xs) and iys < len(ys):
         if cmp(xs[ixs], ys[iys]) == -1:
             ret.append(xs[ixs])
             ixs += 1
         else:
             ret.append(ys[iys])
             iys += 1
+
     while ixs < len(xs):
         ret.append(xs[ixs])
         ixs += 1
+
     while iys < len(ys):
         ret.append(ys[iys])
         iys += 1
+
     return ret
 
 
@@ -115,8 +119,8 @@ def merge_sorted(xs, cmp=cmp_standard):
         return xs
     else:
         midpoint = len(xs) // 2
-        left = xs[:midpoint]
-        right = xs[midpoint:]
+        left = xs[midpoint:]
+        right = xs[:midpoint]
         sorted_left = merge_sorted(left, cmp=cmp)
         sorted_right = merge_sorted(right, cmp=cmp)
         return _merged(sorted_left, sorted_right, cmp=cmp)
