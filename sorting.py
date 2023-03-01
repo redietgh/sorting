@@ -77,6 +77,23 @@ def _merged(xs, ys, cmp=cmp_standard):
     >>> _merged([1, 3, 5], [2, 4, 6])
     [1, 2, 3, 4, 5, 6]
     '''
+    ixs = 0
+    iys = 0
+    ret = []
+    while ixs < len(xs) and iys < len(xs):
+        if cmp(xs[ixs], ys[iys]) == -1:
+            ret.append(xs[ixs])
+            ixs += 1
+        else: 
+            ret.append(ys[iys])
+            iys += 1
+    while ixs < len(xs):
+        ret.append(xs[ixs])
+        ixs += 1
+    while iys < len(ys):
+        ret.append(ys[iys])
+        iys += 1
+    return ret
 
 
 def merge_sorted(xs, cmp=cmp_standard):
@@ -95,6 +112,15 @@ def merge_sorted(xs, cmp=cmp_standard):
     You should return a sorted version of the input list xs.
     You should not modify the input list xs in any way.
     '''
+    if len(xs) <= 1:
+        return xs
+    else:
+        midpoint = len(xs) // 2
+        left = xs[:mid]
+        right = xs[mid:]
+        sorted_left = merge_sorted(left, cmp=cmp)
+        sorted_right = merge_sorted(right, cmp=cmp)
+        return _merged(sorted_left, sorted_right, cmp=cmp)
 
 
 def quick_sorted(xs, cmp=cmp_standard):
@@ -120,6 +146,17 @@ def quick_sorted(xs, cmp=cmp_standard):
     You should return a sorted version of the input list xs.
     You should not modify the input list xs in any way.
     '''
+    if len(xs) <= 1:
+        return xs
+    else:
+        midpoint = len(xs) // 2
+        pivot_val = xs[mid]
+        xs_less_than = [x for x in xs if cmp(x, pivot_val) == -1]
+        xs_greater = [x for x in xs if cmp(x, pivot_val) == 1]
+        xs_equal_to = [x for x in xs if cmp(x, pivot_val) == 0]
+        xs_less_than = quick_sorted(xs_less_than, cmp=cmp)
+        xs_greater_than = quick_sorted(xs_greater_than, cmp=cmp)
+        return xs_less_than + xs_equal_to + xs_greater
 
 
 def quick_sort(xs, cmp=cmp_standard):
